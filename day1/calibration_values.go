@@ -8,6 +8,18 @@ import (
 	"strings"
 )
 
+var digitToIntMap = map[string]string{
+	"one":   "1",
+	"two":   "2",
+	"three": "3",
+	"four":  "4",
+	"five":  "5",
+	"six":   "6",
+	"seven": "7",
+	"eight": "8",
+	"nine":  "9",
+}
+
 func findFirstAndLastNumber(line string) (int, error) {
 	// find first number from front
 	var firstNum string
@@ -27,13 +39,15 @@ func findFirstAndLastNumber(line string) (int, error) {
 	return strconv.Atoi(firstNum + secondNum)
 }
 
-func convertSpelledOutNumbers(str string) string {
-	spelledDigits := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine"}
-	for index, digit := range spelledDigits {
-		intRepresentation := strconv.Itoa(index + 1)
-		str = strings.Replace(str, digit, intRepresentation, -1)
+func convertSpelledOutNumbers(calibration string) string {
+	for i := 0; i < len(calibration); i++ {
+		for j := i; j <= len(calibration); j++ {
+			if val, found := digitToIntMap[calibration[i:j]]; found {
+				calibration = strings.Replace(calibration, calibration[i:j], val, 1)
+			}
+		}
 	}
-	return str
+	return calibration
 }
 
 func addUpTheNumbers(allCalibrations []string) (int, error) {
@@ -42,7 +56,8 @@ func addUpTheNumbers(allCalibrations []string) (int, error) {
 		if len(line) == 0 {
 			continue
 		}
-		foundNumber, err := findFirstAndLastNumber(line)
+		normalizedLine := convertSpelledOutNumbers(line)
+		foundNumber, err := findFirstAndLastNumber(normalizedLine)
 		if err != nil {
 			return -1, err
 		}
@@ -65,5 +80,5 @@ func main() {
 		log.Fatal("Couldn't calculate the totals because of: ", err)
 	}
 
-	fmt.Printf("Grand total: %d", total)
+	fmt.Printf("Grand total: %d\n", total)
 }
