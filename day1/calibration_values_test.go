@@ -37,3 +37,21 @@ func TestOnlyOneNumber(t *testing.T) {
 	assert.Equal(77, result)
 	assert.Nil(err)
 }
+
+func TestAddingSimpleExample(t *testing.T) {
+	assert := assert.New(t)
+
+	simpleExample := []string{"1abc2", "pqr3stu8vwx", "a1b2c3d4e5f", "treb7uchet"}
+	result, err := addUpTheNumbers(simpleExample)
+	assert.Equal(142, result)
+	assert.Nil(err)
+}
+
+func TestAddingSimpleExampleWithEmpties(t *testing.T) {
+	assert := assert.New(t)
+
+	simpleExample := []string{"1abc2", "", "pqr3stu8vwx", "a1b2c3d4e5f", "treb7uchet", ""}
+	result, err := addUpTheNumbers(simpleExample)
+	assert.Equal(142, result)
+	assert.Nil(err)
+}

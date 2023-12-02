@@ -1,11 +1,11 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
 	"log"
 	"os"
 	"strconv"
+	"strings"
 )
 
 func findFirstAndLastNumber(line string) (int, error) {
@@ -27,6 +27,21 @@ func findFirstAndLastNumber(line string) (int, error) {
 	return strconv.Atoi(firstNum + secondNum)
 }
 
+func addUpTheNumbers(allCalibrations []string) (int, error) {
+	total := 0
+	for _, line := range allCalibrations {
+		if len(line) == 0 {
+			continue
+		}
+		foundNumber, err := findFirstAndLastNumber(line)
+		if err != nil {
+			return -1, err
+		}
+		total += foundNumber
+	}
+	return total, nil
+}
+
 func main() {
 	fmt.Println("Starting...")
 	content, err := os.ReadFile("input_file.txt")
@@ -34,11 +49,11 @@ func main() {
 		log.Fatal("Couldn't read file: input_file.txt. Please provide an input file.")
 	}
 
-	total := 0
 	calibrations := strings.Split(string(content), "\n")
-	for _, line := range calibrations {
-		foundNumber, _ := findFirstAndLastNumber(line)
-		total += foundNumber
+	total, err := addUpTheNumbers(calibrations)
+
+	if err != nil {
+		log.Fatal("Couldn't calculate the totals because of: ", err)
 	}
 
 	fmt.Printf("Grand total: %d", total)
