@@ -56,6 +56,23 @@ func findNumberStart(calibration string) string {
 	return foundNum
 }
 
+func findNumberEnd(calibration string) string {
+	var foundNum string
+	for i := len(calibration); i > 0; i-- {
+		if _, err := strconv.Atoi(calibration[i-1 : i]); err == nil {
+			foundNum = calibration[i-1 : i]
+			return foundNum
+		}
+		for j := i; j > 0; j-- {
+			if val, found := digitToIntMap[calibration[j:i]]; found {
+				foundNum = val
+				return foundNum
+			}
+		}
+	}
+	return foundNum
+}
+
 func convertSpelledOutNumbers(calibration string) string {
 	for i := 0; i < len(calibration); i++ {
 		for j := i; j <= len(calibration); j++ {

@@ -93,3 +93,10 @@ func TestFindNumberOfStart(t *testing.T) {
 	result := findNumberStart("eightwo5three")
 	assert.Equal("8", result)
 }
+
+func TestFindNumberOfEnd(t *testing.T) {
+	assert := assert.New(t)
+
+	result := findNumberEnd("eightwo5three")
+	assert.Equal("3", result)
+}
