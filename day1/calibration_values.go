@@ -8,7 +8,7 @@ import (
 	"strconv"
 )
 
-func findFirstNumber(line string) (int, error) {
+func findFirstAndLastNumber(line string) (int, error) {
 	// find first number from front
 	var firstNum string
 	var secondNum string
@@ -39,11 +39,11 @@ func main() {
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		line := scanner.Text()
-		foundNumber, _ := findFirstNumber(line)
+		foundNumber, _ := findFirstAndLastNumber(line)
 		total += foundNumber
 	}
 
-	fmt.Printf("Grand total: %d\n", total)
+	fmt.Printf("Grand total: %d", total)
 
 	if err := scanner.Err(); err != nil {
 		log.Fatal("Ran into an error with the bufio Scanner")

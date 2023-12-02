@@ -9,7 +9,7 @@ import (
 func TestFindingNumberSimple(t *testing.T) {
 	assert := assert.New(t)
 
-	result, err := findFirstNumber("1abc2")
+	result, err := findFirstAndLastNumber("1abc2")
 	assert.Equal(12, result)
 	assert.Nil(err)
 }
@@ -17,7 +17,7 @@ func TestFindingNumberSimple(t *testing.T) {
 func TestFindingNumberHarder(t *testing.T) {
 	assert := assert.New(t)
 
-	result, err := findFirstNumber("pqr3stu8vwx")
+	result, err := findFirstAndLastNumber("pqr3stu8vwx")
 	assert.Equal(38, result)
 	assert.Nil(err)
 }
@@ -25,7 +25,7 @@ func TestFindingNumberHarder(t *testing.T) {
 func TestExtraNumbers(t *testing.T) {
 	assert := assert.New(t)
 
-	result, err := findFirstNumber("a1b2c3d4e5f")
+	result, err := findFirstAndLastNumber("a1b2c3d4e5f")
 	assert.Equal(15, result)
 	assert.Nil(err)
 }
@@ -33,7 +33,7 @@ func TestExtraNumbers(t *testing.T) {
 func TestOnlyOneNumber(t *testing.T) {
 	assert := assert.New(t)
 
-	result, err := findFirstNumber("treb7uchet")
+	result, err := findFirstAndLastNumber("treb7uchet")
 	assert.Equal(77, result)
 	assert.Nil(err)
 }
