@@ -27,6 +27,15 @@ func findFirstAndLastNumber(line string) (int, error) {
 	return strconv.Atoi(firstNum + secondNum)
 }
 
+func convertSpelledOutNumbers(str string) string {
+	spelledDigits := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine"}
+	for index, digit := range spelledDigits {
+		intRepresentation := strconv.Itoa(index + 1)
+		str = strings.Replace(str, digit, intRepresentation, -1)
+	}
+	return str
+}
+
 func addUpTheNumbers(allCalibrations []string) (int, error) {
 	total := 0
 	for _, line := range allCalibrations {

@@ -55,3 +55,10 @@ func TestAddingSimpleExampleWithEmpties(t *testing.T) {
 	assert.Equal(142, result)
 	assert.Nil(err)
 }
+
+func TestConvertingWordNumbers(t *testing.T) {
+	assert := assert.New(t)
+
+	result := convertSpelledOutNumbers("two1ninetwokkerca13numtwo")
+	assert.Equal("2192kkerca13num2", result)
+}
