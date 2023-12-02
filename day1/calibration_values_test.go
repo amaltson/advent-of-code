@@ -86,3 +86,10 @@ func TestAddingWithWrittenDigits(t *testing.T) {
 	assert.Equal(281, result)
 	assert.Nil(err)
 }
+
+func TestFindNumberOfStart(t *testing.T) {
+	assert := assert.New(t)
+
+	result := findNumberStart("eightwo5three")
+	assert.Equal("8", result)
+}

@@ -39,6 +39,23 @@ func findFirstAndLastNumber(line string) (int, error) {
 	return strconv.Atoi(firstNum + secondNum)
 }
 
+func findNumberStart(calibration string) string {
+	var foundNum string
+	for i := 0; i < len(calibration); i++ {
+		if _, err := strconv.Atoi(calibration[i : i+1]); err == nil {
+			foundNum = calibration[i : i+1]
+			return foundNum
+		}
+		for j := i; j <= len(calibration); j++ {
+			if val, found := digitToIntMap[calibration[i:j]]; found {
+				foundNum = val
+				return foundNum
+			}
+		}
+	}
+	return foundNum
+}
+
 func convertSpelledOutNumbers(calibration string) string {
 	for i := 0; i < len(calibration); i++ {
 		for j := i; j <= len(calibration); j++ {
