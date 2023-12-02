@@ -43,7 +43,9 @@ func convertSpelledOutNumbers(calibration string) string {
 	for i := 0; i < len(calibration); i++ {
 		for j := i; j <= len(calibration); j++ {
 			if val, found := digitToIntMap[calibration[i:j]]; found {
-				calibration = strings.Replace(calibration, calibration[i:j], val, 1)
+				firstPart := calibration[:i]
+				remainingPart := calibration[j:]
+				calibration = firstPart + val + remainingPart
 			}
 		}
 	}
