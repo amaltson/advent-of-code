@@ -56,27 +56,6 @@ func TestAddingSimpleExampleWithEmpties(t *testing.T) {
 	assert.Nil(err)
 }
 
-func TestConvertingWordNumberSimple(t *testing.T) {
-	assert := assert.New(t)
-
-	result := convertSpelledOutNumbers("two")
-	assert.Equal("2", result)
-}
-
-func TestConvertingWordNumbers(t *testing.T) {
-	assert := assert.New(t)
-
-	result := convertSpelledOutNumbers("two1ninetwokkerca13numtwo")
-	assert.Equal("2192kkerca13num2", result)
-}
-
-func TestConvertingOverlappingWordNumbers(t *testing.T) {
-	assert := assert.New(t)
-
-	result := convertSpelledOutNumbers("eightwothree")
-	assert.Equal("8wo3", result)
-}
-
 func TestAddingWithWrittenDigits(t *testing.T) {
 	assert := assert.New(t)
 

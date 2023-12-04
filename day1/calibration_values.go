@@ -20,25 +20,6 @@ var digitToIntMap = map[string]string{
 	"nine":  "9",
 }
 
-func findFirstAndLastNumber(line string) (int, error) {
-	// find first number from front
-	var firstNum string
-	var secondNum string
-	for i := 0; i < len(line); i++ {
-		if _, err := strconv.Atoi(line[i : i+1]); err == nil {
-			firstNum = line[i : i+1]
-			break
-		}
-	}
-	for i := len(line); i > 0; i-- {
-		if _, err := strconv.Atoi(line[i-1 : i]); err == nil {
-			secondNum = line[i-1 : i]
-			break
-		}
-	}
-	return strconv.Atoi(firstNum + secondNum)
-}
-
 func findNumberStart(calibration string) string {
 	var foundNum string
 	for i := 0; i < len(calibration); i++ {
@@ -73,17 +54,11 @@ func findNumberEnd(calibration string) string {
 	return foundNum
 }
 
-func convertSpelledOutNumbers(calibration string) string {
-	for i := 0; i < len(calibration); i++ {
-		for j := i; j <= len(calibration); j++ {
-			if val, found := digitToIntMap[calibration[i:j]]; found {
-				firstPart := calibration[:i]
-				remainingPart := calibration[j:]
-				calibration = firstPart + val + remainingPart
-			}
-		}
-	}
-	return calibration
+func findFirstAndLastNumber(calibration string) (int, error) {
+	startNumber := findNumberStart(calibration)
+	endNumber := findNumberEnd(calibration)
+	foundNumbers, err := strconv.Atoi(startNumber + endNumber)
+	return foundNumbers, err
 }
 
 func addUpTheNumbers(allCalibrations []string) (int, error) {
