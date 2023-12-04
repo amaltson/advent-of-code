@@ -92,12 +92,10 @@ func addUpTheNumbers(allCalibrations []string) (int, error) {
 		if len(line) == 0 {
 			continue
 		}
-		normalizedLine := convertSpelledOutNumbers(line)
-		foundNumber, err := findFirstAndLastNumber(normalizedLine)
-		if err != nil {
-			return -1, err
-		}
-		total += foundNumber
+		startNumber := findNumberStart(line)
+		endNumber := findNumberEnd(line)
+		foundNumbers, _ := strconv.Atoi(startNumber + endNumber)
+		total += foundNumbers
 	}
 	return total, nil
 }
