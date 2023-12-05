@@ -1,8 +1,11 @@
 package day4
 
 import (
+	"errors"
 	"fmt"
 	"regexp"
+	"strconv"
+	"strings"
 )
 
 type card struct {
@@ -10,16 +13,43 @@ type card struct {
 	cardNums    []int
 }
 
-func parseCard(inputLine string) card {
-	parsedWinningNums := []int{}
-	parsedCardNums := []int{}
+// Card   1:  9 32  7 82 10 36 31 12 85 95 |  7 69 23  9 32 22 47 10 95 14 24 71 57 12 31 59 36 68  2 82 38 80 85 21 92
+func parseCard(inputLine string) (card, error) {
+	var parsedWinningNums []int
+	var parsedCardNums []int
 
-	numRe := regexp.MustCompile(`Card\s+\d:([\s\d]+) |([\s\d]+)`)
-	matches := numRe.FindAllStringSubmatch(inputLine, -1)
-	fmt.Printf("All matches: %v", matches)
-	fmt.Printf("All matches: %s", matches[0])
-	fmt.Printf("Match 1: %s", matches[1])
-	fmt.Printf("Match 2: %s", matches[2])
+	startNumIndex := strings.Index(inputLine, ": ")
+	separatorIndex := strings.Index(inputLine, "| ")
+	if startNumIndex == -1 || separatorIndex == -1 {
+		return card{}, errors.New(`badly structured file, expecting format:
+			'Card #: # # .. | # # ..'`)
+	}
+	fmt.Println(inputLine[startNumIndex+1 : separatorIndex])
+	fmt.Println(inputLine[separatorIndex+1:])
+	whitespace := regexp.MustCompile(`\s+`)
+	winningNumsStr := whitespace.Split(strings.TrimSpace(inputLine[startNumIndex+1:separatorIndex]), -1)
+	cardNumsStr := whitespace.Split(strings.TrimSpace(inputLine[separatorIndex+1:]), -1)
 
-	return card{winningNums: parsedWinningNums, cardNums: parsedCardNums}
+	fmt.Printf("%v\n", winningNumsStr)
+	fmt.Printf("%v\n", cardNumsStr)
+
+	for _, winningNum := range winningNumsStr {
+		fmt.Printf("Number: %s", winningNum)
+		winning, err := strconv.Atoi(strings.TrimSpace(winningNum))
+		if err != nil {
+			return card{}, errors.New(`winning numbers are not numbers`)
+		}
+		fmt.Printf("Winnings: %d\n", winning)
+		parsedWinningNums = append(parsedWinningNums, winning)
+	}
+
+	for _, cardNum := range cardNumsStr {
+		cardInt, err := strconv.Atoi(strings.TrimSpace(cardNum))
+		if err != nil {
+			return card{}, errors.New(`winning numbers are not numbers`)
+		}
+		parsedCardNums = append(parsedCardNums, cardInt)
+	}
+
+	return card{winningNums: parsedWinningNums, cardNums: parsedCardNums}, nil
 }
