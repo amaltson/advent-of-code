@@ -1,8 +1,10 @@
-package day4
+package main
 
 import (
 	"errors"
 	"fmt"
+	"log"
+	"os"
 	"regexp"
 	"slices"
 	"strconv"
@@ -25,22 +27,15 @@ func parseCard(inputLine string) (card, error) {
 		return card{}, errors.New(`badly structured file, expecting format:
 			'Card #: # # .. | # # ..'`)
 	}
-	fmt.Println(inputLine[startNumIndex+1 : separatorIndex])
-	fmt.Println(inputLine[separatorIndex+1:])
 	whitespace := regexp.MustCompile(`\s+`)
 	winningNumsStr := whitespace.Split(strings.TrimSpace(inputLine[startNumIndex+1:separatorIndex]), -1)
 	cardNumsStr := whitespace.Split(strings.TrimSpace(inputLine[separatorIndex+1:]), -1)
 
-	fmt.Printf("%v\n", winningNumsStr)
-	fmt.Printf("%v\n", cardNumsStr)
-
 	for _, winningNum := range winningNumsStr {
-		fmt.Printf("Number: %s", winningNum)
 		winning, err := strconv.Atoi(strings.TrimSpace(winningNum))
 		if err != nil {
 			return card{}, errors.New(`winning numbers are not numbers`)
 		}
-		fmt.Printf("Winnings: %d\n", winning)
 		parsedWinningNums = append(parsedWinningNums, winning)
 	}
 
@@ -68,4 +63,29 @@ func calculatePoints(inputLine string) int {
 		}
 	}
 	return totalPoints
+}
+
+func calculateTotalPoints(cards []string) int {
+	grandTotal := 0
+	for _, card := range cards {
+		grandTotal += calculatePoints(card)
+	}
+	return grandTotal
+}
+
+func main() {
+	fmt.Println("Starting...")
+	content, err := os.ReadFile("input_file.txt")
+	if err != nil {
+		log.Fatal("Couldn't read file: input_file.txt. Please provide an input file.")
+	}
+
+	cards := strings.Split(string(content), "\n")
+	total := calculateTotalPoints(cards)
+
+	if err != nil {
+		log.Fatal("Couldn't calculate the totals because of: ", err)
+	}
+
+	fmt.Printf("Grand total: %d\n", total)
 }
