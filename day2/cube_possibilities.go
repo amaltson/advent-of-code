@@ -13,6 +13,12 @@ type game struct {
 	cubes  map[string][]int
 }
 
+var maxCubes = map[string]int{
+	"red":   12,
+	"green": 13,
+	"blue":  14,
+}
+
 func parseGameData(inputLine string) (game, error) {
 	re := regexp.MustCompile(`Game (\d+): (.*)`)
 	matches := re.FindStringSubmatch(inputLine)
@@ -33,6 +39,17 @@ func parseGameData(inputLine string) (game, error) {
 		}
 	}
 	return game{number: cardNumber, cubes: resultingCubes}, nil
+}
+
+func isGamePossible(checkingGame game) bool {
+	for colour, maxOfColour := range maxCubes {
+		for _, cubeNum := range checkingGame.cubes[colour] {
+			if cubeNum > maxOfColour {
+				return false
+			}
+		}
+	}
+	return true
 }
 
 func main() {

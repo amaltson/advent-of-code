@@ -35,3 +35,33 @@ func TestAdditionalParsingGameData(t *testing.T) {
 	assert.Equal(expected, game.cubes)
 	assert.Nil(err)
 }
+
+func TestGameIsPossible(t *testing.T) {
+	assert := assert.New(t)
+
+	possibleGame := game{
+		number: 4,
+		cubes: map[string][]int{
+			"red":   []int{1, 5, 4},
+			"blue":  []int{3, 1, 3, 1, 10},
+			"green": []int{11, 5, 4, 12},
+		},
+	}
+
+	assert.True(isGamePossible(possibleGame))
+}
+
+func TestGameIsNotPossible(t *testing.T) {
+	assert := assert.New(t)
+
+	possibleGame := game{
+		number: 4,
+		cubes: map[string][]int{
+			"red":   []int{1, 5, 13, 6, 16},
+			"blue":  []int{3, 1, 3, 1},
+			"green": []int{11, 5, 4, 12},
+		},
+	}
+
+	assert.False(isGamePossible(possibleGame))
+}
