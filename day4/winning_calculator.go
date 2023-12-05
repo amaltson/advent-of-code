@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"regexp"
+	"slices"
 	"strconv"
 	"strings"
 )
@@ -52,4 +53,19 @@ func parseCard(inputLine string) (card, error) {
 	}
 
 	return card{winningNums: parsedWinningNums, cardNums: parsedCardNums}, nil
+}
+
+func calculatePoints(inputLine string) int {
+	totalPoints := 0
+	parsedCards, _ := parseCard(inputLine)
+	for _, cardNum := range parsedCards.cardNums {
+		if slices.Contains(parsedCards.winningNums, cardNum) {
+			if totalPoints == 0 {
+				totalPoints = 1
+			} else {
+				totalPoints = totalPoints * 2
+			}
+		}
+	}
+	return totalPoints
 }
