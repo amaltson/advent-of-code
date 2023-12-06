@@ -3,6 +3,8 @@ package main
 import (
 	"errors"
 	"fmt"
+	"log"
+	"os"
 	"regexp"
 	"strconv"
 	"strings"
@@ -17,6 +19,37 @@ var maxCubes = map[string]int{
 	"red":   12,
 	"green": 13,
 	"blue":  14,
+}
+
+func main() {
+	fmt.Println("Starting...")
+	content, err := os.ReadFile("input_file.txt")
+	if err != nil {
+		log.Fatal("Couldn't read file: input_file.txt. Please provide an input file.")
+	}
+
+	games := strings.Split(string(content), "\n")
+	if len(games[len(games)-1]) == 0 {
+		games = games[:len(games)-1]
+	}
+	total := addUpGameIds(games)
+
+	if err != nil {
+		log.Fatal("Couldn't calculate the totals because of: ", err)
+	}
+
+	fmt.Printf("Grand total: %d\n", total)
+}
+
+func addUpGameIds(inputLines []string) int {
+	var totalGameIds int
+	for _, inputLine := range inputLines {
+		parsedGame, _ := parseGameData(inputLine)
+		if isGamePossible(parsedGame) {
+			totalGameIds += parsedGame.number
+		}
+	}
+	return totalGameIds
 }
 
 func parseGameData(inputLine string) (game, error) {
@@ -50,8 +83,4 @@ func isGamePossible(checkingGame game) bool {
 		}
 	}
 	return true
-}
-
-func main() {
-	fmt.Println("Hello, world!")
 }
