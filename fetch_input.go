@@ -19,21 +19,19 @@ func main() {
 	year := os.Args[1]
 	day := os.Args[2]
 
-	// Convert day string to integer
+	// Construct the URL
+	url := fmt.Sprintf("https://adventofcode.com/%s/day/%s/input", year, day)
+
+	// Format day with leading zero if necessary
 	dayInt, err := strconv.Atoi(os.Args[2])
 	if err != nil {
 		fmt.Println("Invalid day format. Day should be an integer.")
 		os.Exit(1)
 	}
-
-	// Format day with leading zero if necessary
 	dayPadded := fmt.Sprintf("%02d", dayInt)
 
-	// Construct the URL
-	url := fmt.Sprintf("https://adventofcode.com/%s/day/%s/input", year, dayPadded)
-
 	// Create directory path
-	dirPath := filepath.Join(year, "day"+day)
+	dirPath := filepath.Join(year, "day"+dayPadded)
 	err = os.MkdirAll(dirPath, 0755)
 	if err != nil {
 		panic(err)
